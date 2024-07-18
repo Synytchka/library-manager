@@ -1,0 +1,21 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    flex: 1;
+}
+
+footer {
+    background-color: #f8f9fa;
+    flex-shrink: 0;
+}
+
+.flashed {
+    color: rgb(58, 98, 170);
+}

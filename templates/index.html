@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}All Books{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <h3 class="flashed">{{ msg }}</h3>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h1>Filter Books</h1>
+    <form method="GET" action="{{ url_for('home') }}">
+        <div class="form-group">
+            <label for="title">Book Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ title_filter }}">
+        </div>
+        <div class="form-group mt-3">
+            <label for="author_id">Author</label>
+            <select class="form-control" id="author_id" name="author_id">
+                <option value="">All Authors</option>
+                {% for author in authors %}
+                    <option value="{{ author.author_id }}" {% if author_filter and author.author_id == author_filter|int %}selected{% endif %}>{{ author.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    </form>
+
+    <h1 class="mt-5">Here are all the books:</h1>
+    <ul class="list-group">
+        {% for book in books %}
+            <li class="list-group-item">
+                {{ book.title }} by {{ book.author.name }}
+                <a href="{{ url_for('delete_book', book_id=book.book_id) }}" class="btn btn-danger btn-sm float-right">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('export_books') }}" class="btn btn-secondary mt-3">Export Books</a>
+</div>
+{% endblock %}
